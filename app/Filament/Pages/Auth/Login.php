@@ -31,7 +31,7 @@ class Login extends BaseLogin
     protected function getUsernameFormComponent(): Component
     {
         return TextInput::make('username')
-            ->label('Username')
+            ->label('Usuario')
             ->required()
             ->autocomplete()
             ->autofocus()
