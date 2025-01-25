@@ -33,6 +33,7 @@ cd filament-ldap
 
 ```bash
 composer install
+yarn install
 yarn run build
 ```
 
