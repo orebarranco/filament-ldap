@@ -1,66 +1,129 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Filament-LDAP
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este proyecto implementa un sistema de gestión basado en **FilamentPHP**, con autenticación integrada a través de **LDAP
+**. Está diseñado para facilitar la administración y la gestión de usuarios autenticados mediante un directorio LDAP,
+combinando la flexibilidad de Laravel con la robustez de los sistemas empresariales de autenticación.
 
-## About Laravel
+## Características
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Autenticación mediante **LDAP** con soporte para credenciales locales como fallback.
+- Integración con **FilamentPHP** para una interfaz administrativa moderna y funcional.
+- Configuración simplificada de LDAP a través de variables de entorno.
+- Comando personalizado para crear usuarios de Filament (`make:filament-user`).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requisitos previos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP 8.2+**
+- **Laravel 11+**
+- **Composer**
+- **Docker** y **Docker Compose** (solo para pruebas)
 
-## Learning Laravel
+## Instalación
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1. Clona este repositorio
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/orebarranco/filament-ldap.git
+cd filament-ldap
+```
 
-## Laravel Sponsors
+### 2. Instalación de dependencias
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+yarn run build
+```
 
-### Premium Partners
+### 3. Configuración del archivo `.env`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Copia el archivo `.env.example` a `.env` y completa los valores requeridos:
 
-## Contributing
+```bash
+cp .env.example .env
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Configura las variables relacionadas con LDAP:
 
-## Code of Conduct
+```dotenv
+LDAP_HOST=127.0.0.1
+LDAP_USERNAME="cn=Administrator,cn=Users,dc=example,dc=com"
+LDAP_PASSWORD=Passw0rd
+LDAP_BASE_DN="dc=example,dc=com"
+LDAP_PORT=389
+LDAP_SSL=false
+LDAP_TLS=false
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Generar la clave de la aplicación
 
-## Security Vulnerabilities
+```bash
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Configuración de la base de datos
 
-## License
+Actualiza las credenciales de la base de datos en el archivo `.env` y ejecuta las migraciones:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate
+```
+
+### 6. Crear un usuario administrador
+
+Usa el comando `make:filament-user` para generar un usuario administrador:
+
+```bash
+php artisan make:filament-user
+```
+
+Ingresa el nombre, correo electrónico, nombre de usuario y contraseña cuando se te solicite.
+
+### 7. Iniciar el servidor de desarrollo
+
+```bash
+php artisan serve
+```
+
+La aplicación estará disponible en [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+## Pruebas con Docker Compose
+
+Este proyecto incluye un archivo `docker-compose.yml` que permite configurar un servidor LDAP (Active Directory) y una
+interfaz web de administración para LDAP (phpLDAPadmin).
+
+### 1. Configurar Docker
+
+Asegúrate de tener **Docker** y **Docker Compose** instalados en tu máquina. Si no los tienes, puedes seguir las guías
+oficiales para instalarlos:
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### 2. Levantar los servicios de Docker
+
+En el directorio raíz del proyecto, ejecuta el siguiente comando para levantar los contenedores:
+
+```bash
+docker-compose up -d
+```
+
+Esto iniciará los siguientes servicios:
+
+- **LDAP (Active Directory)**: Servicio de servidor LDAP usando la imagen `smblds/smblds`.
+- **phpLDAPadmin**: Interfaz web para administrar LDAP, accesible en el puerto `8080` de tu máquina.
+
+### 3. Acceder a phpLDAPadmin
+
+Para administrar el servidor LDAP, abre tu navegador y accede a:
+
+[http://localhost:8080](http://localhost:8080)
+
+- **Usuario**: `cn=Administrator,cn=Users,dc=example,dc=com`
+- **Contraseña**: `Passw0rd`
+
+### 4. Verificar la autenticación LDAP
+
+En tu aplicación Laravel, puedes probar la autenticación LDAP utilizando las credenciales de usuario configuradas en el
+servidor LDAP. Si las credenciales son correctas, el usuario podrá acceder al panel de administración de Filament.
