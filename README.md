@@ -1,8 +1,8 @@
 # Filament-LDAP
 
-Este proyecto implementa un sistema de gestión basado en **FilamentPHP**, con autenticación integrada a través de **LDAP
-**. Está diseñado para facilitar la administración y la gestión de usuarios autenticados mediante un directorio LDAP,
-combinando la flexibilidad de Laravel con la robustez de los sistemas empresariales de autenticación.
+Este proyecto implementa un sistema de gestión basado en **FilamentPHP**, con autenticación integrada a través de
+**LDAP**. Está diseñado para facilitar la administración y la gestión de usuarios autenticados mediante un directorio
+LDAP, combinando la flexibilidad de Laravel con la robustez de los sistemas empresariales de autenticación.
 
 ## Características
 
