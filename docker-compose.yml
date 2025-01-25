@@ -1,0 +1,33 @@
+services:
+    # Servidor LDAP (Active Directory)
+    ldap:
+        image: smblds/smblds
+        container_name: ldap
+        hostname: dc1
+        environment:
+            REALM: EXAMPLE.COM
+            DOMAIN: example
+            INSECURE_LDAP: true
+            INSECURE_PASSWORDSETTINGS: true
+        ports:
+            - "389:389"  # Puerto LDAP
+            - "636:636"  # Puerto LDAPS
+        networks:
+            - laravel_network
+
+    # phpLDAPadmin (Interfaz web para administrar LDAP)
+    phpldapadmin:
+        image: osixia/phpldapadmin
+        container_name: phpldapadmin
+        environment:
+            PHPLDAPADMIN_HTTPS: "false"  # Deshabilitar HTTPS para desarrollo
+            PHPLDAPADMIN_LDAP_HOSTS: "ldap"  # Conectar al servicio "ldap"
+        ports:
+            - "8080:80"  # Puerto para acceder a la interfaz web
+        networks:
+            - laravel_network
+
+# Red para conectar los servicios
+networks:
+    laravel_network:
+        driver: bridge
