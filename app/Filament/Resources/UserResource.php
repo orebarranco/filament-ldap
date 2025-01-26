@@ -73,7 +73,7 @@ class UserResource extends Resource
                     ->sortable(),
                 TextColumn::make('type')
                     ->label('Tipo')
-                    ->getStateUsing(fn (User $record) => is_null($record->domain) ? 'LOCAL' : 'LDAP')
+                    ->getStateUsing(fn (User $record): string => is_null($record->domain) ? 'LOCAL' : 'LDAP')
                     ->badge(),
                 TextColumn::make('created_at')
                     ->label('Creado')
@@ -107,7 +107,7 @@ class UserResource extends Resource
                             ->label('Email'),
                         TextEntry::make('type')
                             ->label('Tipo')
-                            ->getStateUsing(fn (User $record) => is_null($record->domain) ? 'LOCAL' : 'LDAP')
+                            ->getStateUsing(fn (User $record): string => is_null($record->domain) ? 'LOCAL' : 'LDAP')
                             ->badge(),
                     ])
                     ->columns(),

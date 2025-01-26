@@ -14,7 +14,7 @@ class AddLdapColumnsToUsersTable extends Migration
     {
         $driver = Schema::getConnection()->getDriverName();
 
-        Schema::table('users', function (Blueprint $table) use ($driver) {
+        Schema::table('users', function (Blueprint $table) use ($driver): void {
             $table->string('guid')->nullable();
             $table->string('domain')->nullable();
 
@@ -35,7 +35,7 @@ class AddLdapColumnsToUsersTable extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn(['guid', 'domain']);
         });
     }
