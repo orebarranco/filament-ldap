@@ -8,9 +8,23 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use LdapRecord\Laravel\Auth\AuthenticatesWithLdap;
 use LdapRecord\Laravel\Auth\LdapAuthenticatable;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $username
+ * @property string $email
+ * @property Carbon|null $email_verified_at
+ * @property string $password
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property string|null $guid
+ * @property string|null $domain
+ */
 class User extends Authenticatable implements FilamentUser, LdapAuthenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -51,6 +65,9 @@ class User extends Authenticatable implements FilamentUser, LdapAuthenticatable
         ];
     }
 
+    /**
+     * Determine if the user can access the admin given panel.
+     */
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
