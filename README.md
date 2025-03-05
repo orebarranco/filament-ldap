@@ -14,7 +14,7 @@ LDAP, combinando la flexibilidad de Laravel con la robustez de los sistemas empr
 ## Requisitos previos
 
 - **PHP 8.2+**
-- **Laravel 11+**
+- **Laravel 12+**
 - **Composer**
 - **Docker** y **Docker Compose** (solo para pruebas)
 
